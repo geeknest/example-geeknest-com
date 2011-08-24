@@ -207,6 +207,14 @@ Replace the contents of `config/deploy.rb` with the following:
       task :restart, :roles => :app, :except => { :no_release => true } do
         run "#{try_sudo} touch #{File.join(current_path,'tmp','restart.txt')}"
       end
+
+      namespace :db do
+        desc "Create Production Database"
+        task :create do
+          puts "\n\n=== Creating the Production Database! ===\n\n"
+          run "cd #{current_path}; rake db:create RAILS_ENV=production"
+        end
+      end
     end
 
     namespace :bundler do
