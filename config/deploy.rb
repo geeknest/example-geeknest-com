@@ -29,6 +29,15 @@
       task :restart, :roles => :app, :except => { :no_release => true } do
         run "#{try_sudo} touch #{File.join(current_path,'tmp','restart.txt')}"
       end
+
+      namespace :db do
+        desc "Create Production Database"
+        task :create do
+          puts "\n\n=== Creating the Production Database! ===\n\n"
+          run "cd #{current_path}; rake db:create RAILS_ENV=production"
+          system "cap deploy:set_permissions"
+        end
+      end
     end
 
     namespace :bundler do
